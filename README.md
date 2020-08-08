@@ -12,7 +12,7 @@ To compile the game, type the following command in the terminal:
 Run the game: 
 
 ```./main.exe ```
-
+# Game Overview
 # Requirements
 - SDL 1.2
 - SDL Image 1.2
