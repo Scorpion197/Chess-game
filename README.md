@@ -5,7 +5,7 @@ This is an implementation of Chess game with C programming language
 - Check & Mat and Check are not implemented
 
 # Compiling and running the game 
-To compile the game, type the following command in terminal: 
+To compile the game, type the following command in the terminal: 
 
 ``` gcc -o main.exe main.c game.c game_interface.c List.c `sdl-config --libs` -lSDL_image ```
 
