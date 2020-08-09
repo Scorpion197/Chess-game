@@ -341,7 +341,6 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
 
 void actualiseState(Tile grille[][8],int tour,List* moves, List* capturedPiece[2], Tuple fromCoord,Tuple destCoord){
 
-  FILE *gridFile = NULL;
   int i, j;
   //ACTUALISE LES PIECES CAPTUREES
   //============================================================================
@@ -365,24 +364,7 @@ void actualiseState(Tile grille[][8],int tour,List* moves, List* capturedPiece[2
 
   grille[destCoord.x][destCoord.y].color = tour;
   grille[fromCoord.x][fromCoord.y].color = VIDE;
-  //============================================================================
-
-  // Saving the state of the grid in a file 
-  //============================================================================
-  gridFile = fopen("grid.txt", "w+");
-  if (gridFile == NULL) {
-    printf("GRID file not found"); 
-    exit(0); 
-  } 
-
-  for (i = 0; i < 8; i++) {
-    for (j = 0; j < 8; j++) 
-      fprintf(gridFile, "%d %c", grille[i][j].piece, ' '); 
-
-    fprintf(gridFile, "%s", "\n"); 
-  }
-
-  fclose(gridFile);
+  //============================================================================ 
 }
 
 int chikhMat(Tile grille[8][8], int tour){
