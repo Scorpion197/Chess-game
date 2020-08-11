@@ -25,7 +25,7 @@ void initGame(SDL_Surface *screen){
 
       printf("%d  %d\n", posClick.x, posClick.y);
 
-      if ( posClick.x == -1 )// si il decide de fermer la fenetre{}
+      if ( posClick.x == -1 )// If the user decides to close the game window
       {
         printf("Sortie\n");
         exit(0);
@@ -139,18 +139,18 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
   for (int i = 0; i < 8; i++)
     coupPossible[i] = malloc(8*sizeof(int));
 
-  /* POUR LES TESTES */
+  /* For testing purposes only */
   for (int i = 0; i < 8; i++)
     for (int j = 0; j < 8; j++)
       coupPossible[i][j] = 0;
 
 
-  //LE PION
+  //PAWN
   //==============================================================
   if ( grille[coord.x][coord.y].piece == PION) {
     int pasclassique = 0; // Si on peut fair un pas classique, on met cette variable a 1
 
-    //LE PAS CLASSIQUE
+    //CLASSICAL MOVE
     if ( grille[coord.x+1][coord.y].piece == VIDE && tour == BLANC){
       coupPossible[coord.x+1][coord.y] = 1;
       pasclassique = 1;
@@ -161,7 +161,7 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
       pasclassique = 1;
     }
 
-    //LE PAS DE DEPART
+    //FIRST MOVE
     if ( pasclassique && (( coord.x == 1 && tour == BLANC ) || ( coord.x == 6 && tour == NOIR )))
     {
 
@@ -173,7 +173,7 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
 
     }
 
-    //PRISE EN PASSANT
+    //TAKING OPPONENT'S PIECE
     if ( coord.y != 0 ) {
       if ( grille[coord.x+1][coord.y-1].color == -tour && tour == BLANC)
         coupPossible[coord.x+1][coord.y-1] = 1;
@@ -188,7 +188,7 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
     }
 
   }
-  //LE TOUR ou LA REINE
+  //ROOK OR QUEEN
   //==============================================================
    if ( grille[coord.x][coord.y].piece == TOUR || grille[coord.x][coord.y].piece == REINE) {
       int i;
@@ -226,7 +226,7 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
         i++;
       }
   }
-  //LE FOU ou LA REINE
+  //BISHOP OR QUEEN
   //==============================================================
    if ( grille[coord.x][coord.y].piece == FOU || grille[coord.x][coord.y].piece == REINE) {
       int i;
@@ -263,72 +263,73 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
         i++;
       }
   }
-  //Le CAVALIER
+  //KNIGHT
   else if ( grille[coord.x][coord.y].piece == CAVALIER){
 
-          // UNE CASE EN DIAGONALE GAUCHE EN HAUT ET UNE A GAUCHE
+          // ONE FORWARD LEFT DIAGONAL STEP AND ANOTHER STEP TO THE LEFT
           if ((coord.x > 0 && coord.y > 1) && (grille[coord.x -1][coord.y -2].color != tour) )
               coupPossible[coord.x -1][coord.y - 2] = 1;
 
-          // UNE CASE EN DIAGONALE DROITE EN HAUT ET UNE A DROITE
+          // ONE FORWARD RIGHT DIAGONAL STEP AND ANOTHER STEP TO THE RIGHT
           if ((coord.x > 0 && coord.y < 6) && (grille[coord.x -1][coord.y +2].color != tour) )
               coupPossible[coord.x -1][coord.y +2] = 1;
 
-          // UNE CASE EN DIAGONALE GAUCHE EN BAS ET UNE A GAUCHE
+          // ONE BACKWARD LEFT DIAGONAL STEP AND ANOTHER ONE TO THE LEFT
           if ((coord.x < 7 && coord.y > 1) && (grille[coord.x +1][coord.y -2].color != tour) )
               coupPossible[coord.x +1][coord.y -2] = 1;
 
-          // UNE CASE EN DIAGONALE DROITE EN BAS ET UNE A DROITE
+          // ONE BACKWARD RIGHT DIAGONAL STEP AND ANOTHER STEP TO THE RIGHT
           if ((coord.x < 7 && coord.y < 6) && (grille[coord.x +1][coord.y +2].color != tour) )
               coupPossible[coord.x +1][coord.y +2] = 1;
 
-          // UNE CASE EN DIAGONALE GAUCHE EN HAUT ET UNE EN AVANT
+          // ONE FORWARD LEFT DIAGONAL STEP AND ANOTHER FORWARD ONE
           if ((coord.x > 1 && coord.y > 0) && (grille[coord.x -2][coord.y -1].color != tour) )
               coupPossible[coord.x -2][coord.y -1] = 1;
 
-          // UNE CASE EN DIAGONALE DROITE EN HAUT EN UNE EN AVANT
+          // ONE FORWARD RIGHT DIAGONAL STEP AND ANOTHER FORWARD ONE
           if ((coord.x > 1 && coord.y < 7) && (grille[coord.x -2][coord.y +1].color != tour) )
               coupPossible[coord.x -2][coord.y +1] = 1;
 
-          // UNE CASE EN DIAGONALE GAUCHE EN BAS ET UNE EN AVANT
+          // ONE BACKWARD DIAGONAL LEFT MOVE AND ANOTHER FORWARD MOVE
           if ((coord.x < 6 && coord.y > 0  && (grille[coord.x +2][coord.y -1].color != tour) ))
               coupPossible[coord.x +2][coord.y -1] = 1;
 
-          // UNE CASE EN DIAGONALE DROITE EN BAS ET UNE EN AVANT
+          // ONE BACKWARD DIAGONAL RIGHT MOVE AND ANOTHER BACKWARD ONE
           if ((coord.x < 6 && coord.y < 7) && (grille[coord.x +2][coord.y +1].color != tour) )
               coupPossible[coord.x +2][coord.y +1] = 1;
 
   }
+  // KING
   if ( grille[coord.x][coord.y].piece == ROI){
-  // LE PAS EN AVANT
+  // FORWARD STEP
         if ((grille[coord.x + 1][coord.y].color != tour) && (coord.x < 7 ))
             coupPossible[coord.x + 1][coord.y] = 1;
 
-        // LE PAS EN ARRIERE
+        // BACKWARD STEP
         if ((grille[coord.x -1][coord.y].color != tour) && (coord.x > 0))
             coupPossible[coord.x -1][coord.y] = 1;
 
-        // LE PAS A DROITE
+        // MOVE TO THE RIGHT
         if ((grille[coord.x][coord.y + 1].color != tour) && (coord.y < 7))
             coupPossible[coord.x][coord.y + 1] = 1;
 
-        // LE PAS A GAUCHE
+        // MOVE TO THE LEFT
         if ((grille[coord.x][coord.y - 1].color != tour) && (coord.y > 0))
             coupPossible[coord.x][coord.y - 1] = 1;
 
-        // LE PAS EN DIAGONALE A GAUCHE EN HAUT
+        // FORWARD LEFT DIAGONAL MOVE
         if ((grille[coord.x - 1][coord.y - 1].color != tour) && (coord.x > 0 && coord.y > 0))
             coupPossible[coord.x - 1][coord.y - 1] = 1;
 
-        // LE PAS EN DIAGONALE A DROITE EN HAUT
+        // FORWARD RIGHT DIAGONAL MOVE
         if ((grille[coord.x -1][coord.y + 1].color != tour) && (coord.x > 0 && coord.y < 7))
             coupPossible[coord.x - 1][coord.y + 1] =1;
 
-        // LE PAS EN DIAGONALE A DROITE EN BAS
+        // BACKWARD RIGHT DIAGONAL MOVE
         if ((grille[coord.x + 1][coord.y + 1].color != tour ) && (coord.x < 7 && coord.y < 7))
             coupPossible[coord.x +1][coord.y +1] = 1;
 
-        // LE PAS EN DIAGONALE A GAUCHE EN BAS
+        // BACKWARD LEFT DIAGONAL MOVE
          if ((grille[coord.x +1][coord.y -1].color != tour) && (coord.x < 7 && coord.y > 0))
             coupPossible[coord.x +1][coord.y -1] =1;
 
@@ -342,13 +343,12 @@ int** genCoupPossible(Tile grille[][8], Tuple coord, int tour){
 void actualiseState(Tile grille[][8],int tour,List* moves, List* capturedPiece[2], Tuple fromCoord,Tuple destCoord){
 
   int i, j;
-  //ACTUALISE LES PIECES CAPTUREES
+  //REFRESH CAPTURED PIECES
   //============================================================================
       if (grille[destCoord.x][destCoord.y].piece != VIDE)
          insertion_list(&capturedPiece[tour], &grille[destCoord.x][destCoord.y].piece, sizeof(int));
   //============================================================================
 
-  //ACTUALISE LA LISTE DE MOUVEMENT
   //============================================================================
       char movement[4];
       movement[0] = fromCoord.x + 65;//On est traduit en char
@@ -357,7 +357,7 @@ void actualiseState(Tile grille[][8],int tour,List* moves, List* capturedPiece[2
       movement[3] = destCoord.y + 49;
   //============================================================================
 
-  //ACTUALISE LA GRILLE
+  //REFRESH THE GRID
   //============================================================================
   grille[destCoord.x][destCoord.y].piece = grille[fromCoord.x][fromCoord.y].piece;
   grille[fromCoord.x][fromCoord.y].piece = VIDE;
@@ -373,7 +373,7 @@ int chikhMat(Tile grille[8][8], int tour){
   int echec = 1;
 
 
-  //On recherche la position du roi ADVERSE
+  //SEARCH OPPONENT'S KING POSITION
   while ( i < 8 && posRoi.x == -1) {
     j = 0;
     while ( j < 8 && posRoi.x == -1) {
@@ -394,7 +394,7 @@ int chikhMat(Tile grille[8][8], int tour){
   {
     while (j < 8 && echec)
     {
-      if (coupPossible[i][j] == 1)// Si on trouve qu'il a un coup possible
+      if (coupPossible[i][j] == 1)// IF HE HAS A POSSIBLE MOVE
         echec = 0;
 
       j++;
