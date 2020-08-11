@@ -3,7 +3,7 @@
 
 void insertion_list(List **plist, void* new_data, size_t data_size)
 {
-    /* Création du nouvel élément */
+    /* Creation of a new list element */
     List *new_node = malloc(sizeof(*new_node));
     if (new_node == NULL)
     {
