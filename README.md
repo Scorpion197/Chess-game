@@ -19,4 +19,5 @@ Run the game:
 
 # Requirements
 ✔ SDL 1.2
+
 ✔ SDL Image 1.2
