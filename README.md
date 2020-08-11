@@ -18,5 +18,5 @@ Run the game:
 ![chess](https://user-images.githubusercontent.com/24523745/89719563-89adb680-d9c1-11ea-87c3-007a2caa8692.png)
 
 # Requirements
-- SDL 1.2
-- SDL Image 1.2
+✔ SDL 1.2
+✔ SDL Image 1.2
