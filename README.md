@@ -2,7 +2,7 @@
 This is an implementation of Chess game with C programming language
 
 # Bugs
-- Check & Mat and Check are not implemented
+✔ Check & Mat and Check are not implemented
 
 # Compiling and running the game 
 To compile the game, type the following command in the terminal: 
